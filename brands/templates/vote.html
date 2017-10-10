@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block body %}
+    <nav class="navbar sticky-top navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+            Choose your laptop brand
+        </a>
+    </nav>
+    {% if message == 'rep' %}
+        <div class="alert alert-warning" role="alert">
+            You have already voted!
+        </div>
+    {% elif message == 'vote' %}
+        <div class="alert alert-success" role="alert">
+            Thanks for your vote
+        </div>
+    {% endif %}
+    {% for brand in brands %}
+        <img id="{{ brand.id }}" src="{{ brand.image.url }}" class="brand-img rounded mx-auto d-block"
+             alt="{{ brand.name }}"
+             style="width:200px;cursor:pointer">
+        </br>
+    {% endfor %}
+
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Rating Form</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="rating-text"></p>
+
+                    <div id="btn-group" class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-outline-info" data-rating="1">
+                            <input type="radio" name="options" id="option1" autocomplete="off"> 1
+                        </label>
+                        <label class="btn btn-outline-info" data-rating="2">
+                            <input type="radio" name="options" id="option2" autocomplete="off"> 2
+                        </label>
+                        <label class="btn btn-outline-info" data-rating="3">
+                            <input type="radio" name="options" id="option3" autocomplete="off"> 3
+                        </label>
+                        <label class="btn btn-outline-info" data-rating="4">
+                            <input type="radio" name="options" id="option3" autocomplete="off"> 4
+                        </label>
+                        <label class="btn btn-outline-info" data-rating="5">
+                            <input type="radio" name="options" id="option3" autocomplete="off"> 5
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <form action="" method="post" enctype="multipart/form-data" onsubmit="return fill_form();">
+                        {% csrf_token %}
+                        <input type="hidden" id="form-brand-id" name="brand-id"/>
+                        <input type="hidden" id="form-rating" name="rating"/>
+                        <button type="submit" id="submit-button" class="btn btn-primary">Submit Your Opinion</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        var brand_id;
+        $('.brand-img').on('click', function (event) {
+            $('#rating-text').text('Rate your ' + event.target.alt + ' laptop from 1 to 5:');
+            brand_id = event.target.id;
+            $('#exampleModal').modal();
+        });
+        function fill_form() {
+            $('#form-brand-id').val(brand_id);
+            var rating = $('#btn-group .active').data('rating');
+            if (rating == undefined)
+                return false;
+            $('#form-rating').val(rating);
+            return true;
+        }
+    </script>
+{% endblock %}

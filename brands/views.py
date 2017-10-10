@@ -1,5 +1,8 @@
+from django.db.models import Avg
+from django.db.models import Count
 from django.http.response import HttpResponse
 from django.shortcuts import render, get_object_or_404
+
 from .models import Brand, BrandRating
 
 
@@ -25,9 +28,17 @@ def vote(request):
             brand_rating.save()
             msg = 'vote'
     response = render(request, 'vote.html', context={'brands': Brand.objects.all(), 'message': msg})
-    response.set_cookie('_gaa', 'GA1.2.1050151658.150761992')
+    if msg == 'vote':
+        response.set_cookie('_gaa', 'GA1.2.1050151658.150761992')
     return response
 
 
 def results(request):
-    return HttpResponse('asdf')
+    brand_img = {}
+    for brand in Brand.objects.all():
+        brand_img[brand.id] = brand.image.url
+    brands_data = Brand.objects.values('id').annotate(avg_rating=Avg('brandrating__rating'),
+                                                      rate_count=Count('brandrating')).order_by('-avg_rating')
+    for brand in brands_data:
+        brand['img'] = brand_img[brand['id']]
+    return render(request, 'results.html', context={'brands': brands_data})

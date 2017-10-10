@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block body %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Brand</th>
+            <th>Rating</th>
+            <th>Rate Count</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for brand in brands %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td><img src="{{ brand.img }}" style="height: 50px"/></td>
+                <td class="display-4">{{ brand.avg_rating|floatformat:-2 }}</td>
+                <td>{{ brand.rate_count }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        setTimeout(function () {
+            window.location.reload(true);
+        }, 10000);
+    </script>
+{% endblock %}

@@ -115,3 +115,21 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+##################
+# LOCAL SETTINGS #
+##################
+
+# Allow any settings to be defined in local_settings.py which should be
+# ignored in your version control system allowing for settings to be
+# defined per machine.
+
+# Instead of doing 'from .local_settings import *', we use exec so that
+# local_settings has full access to everything defined in this module.
+
+
+f = os.path.join(BASE_DIR, 'local_settings.py')
+print(f)
+if os.path.exists(f):
+    print(BASE_DIR)
+    exec(open(f, 'rb').read())

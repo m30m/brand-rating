@@ -129,7 +129,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 f = os.path.join(BASE_DIR, 'local_settings.py')
-print(f)
 if os.path.exists(f):
-    print(BASE_DIR)
     exec(open(f, 'rb').read())

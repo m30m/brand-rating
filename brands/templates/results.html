@@ -4,16 +4,16 @@
         <thead>
         <tr>
             <th>#</th>
-            <th>Brand</th>
-            <th>Rating</th>
-            <th>Rate Count</th>
+            <th class="display-4">Brand</th>
+            <th class="display-4">Rating</th>
+            <th class="display-4">Rate Count</th>
         </tr>
         </thead>
         <tbody>
         {% for brand in brands %}
             <tr>
                 <th scope="row">{{ forloop.counter }}</th>
-                <td><img src="{{ brand.img }}" style="height: 50px"/></td>
+                <td><img src="{{ brand.img }}" style="width: 200px"/></td>
                 <td class="display-4">{{ brand.avg_rating|floatformat:-2 }}</td>
                 <td>{{ brand.rate_count }}</td>
             </tr>

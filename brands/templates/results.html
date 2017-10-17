@@ -15,7 +15,7 @@
                 <th scope="row">{{ forloop.counter }}</th>
                 <td><img src="{{ brand.img }}" style="width: 200px"/></td>
                 <td class="display-4">{{ brand.avg_rating|floatformat:-2 }}</td>
-                <td>{{ brand.rate_count }}</td>
+                <td class="display-4">{{ brand.rate_count }}</td>
             </tr>
         {% endfor %}
         </tbody>
